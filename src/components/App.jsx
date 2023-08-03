@@ -24,7 +24,7 @@ class App extends Component {
 
 
   componentDidUpdate = (prevProps, prevState) => {
-    const {searchQuery, currentPage} = this.state
+    const { searchQuery, currentPage} = this.state
     
     if (prevState.searchQuery !== searchQuery ||
     prevState.currentPage !== currentPage)
@@ -33,6 +33,7 @@ class App extends Component {
   
 
   handleSubmit = (text) => {
+
      if (this.state.searchQuery === text) {
       return toast.error(`Sorry,  you just looked ${text}`);
     }
@@ -40,6 +41,7 @@ class App extends Component {
     this.setState({
       hits: [],
       searchQuery: text,
+      currentPage: 1,
     });
 }
 
@@ -60,7 +62,7 @@ class App extends Component {
           return toast.error('Images not found')
           } 
 
-        this.setState({ hits: [...data.hits], totalPages: Math.floor(data.totalHits / 12) })
+        this.setState((prevValue) => ({ hits: [...prevValue.hits, ...data.hits], totalPages: Math.floor(data.totalHits / 12) }))
         toast.success(`page: ${currentPage}`)  
            
         } catch (error) {
@@ -70,7 +72,7 @@ class App extends Component {
             })
             toast.error(error.message)
         } finally {
-            this.setState({isLoading:false })
+            this.setState({isLoading:false})
         }
         
   }
