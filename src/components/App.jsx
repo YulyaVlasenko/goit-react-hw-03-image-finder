@@ -92,7 +92,7 @@ class App extends Component {
     return (
       <AppStyle>
         <Searchbar onSubmit={this.handleSubmit} currentPage={currentPage} />
-        <ImageGallery hits={hits} onOpenModal={this.handleOpenModal}/>
+        {hits.length > 0 && <ImageGallery hits={hits} onOpenModal={this.handleOpenModal}/>}
         {hits.length > 0 && totalPages !== currentPage && !isLoading && <Button onClick={this.handleLoader} />}
         {isLoading && <Loader />}
         {showModal && <Modal onCloseModal={this.handleCloseModal}>
